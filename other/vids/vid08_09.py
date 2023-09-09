@@ -1,3 +1,4 @@
+import math
 import random
 from collections import deque
 
@@ -132,11 +133,39 @@ def find_path(_from: str, _to: str) -> list[str] | str:
 # arr [1..N], shuffled and 2 random numbers deleted
 # find this 2 numbers
 # example arr: [10, 4, 3, 9, 2, 13, 1, 14, 5, 12, 6, 8]
-def find_two():
-    pass
+# expect: 7, 11
+def find_two(arr):
+    arr.sort()
+    val1, val2 = [None] * 2
+    pointer = 1
+    for i, arr_val in enumerate(arr):
+        if i + pointer != arr_val:
+            val1, val2 = val2, (arr_val - abs(1 - pointer))
+            pointer += 1
+            if pointer > 2:
+                break
+    return val1, val2
+
+
+# s: str, t: str
+# is it anagram
+def is_anagram(s: str, t: str) -> bool:
+    if len(s) != len(t):
+        return False
+    count = {}
+    for s1, t1 in zip(s, t):
+        try:
+            count[s1] += 1
+        except KeyError:
+            count[s1] = 1
+        try:
+            count[t1] -= 1
+        except KeyError:
+            count[t1] = -1
+    return not any(count.values())
 
 
 if __name__ == '__main__':
-    pass
+    print(find_two([10, 4, 3, 9, 2, 13, 1, 14, 5, 12, 6, 8, 11]))
 
 
